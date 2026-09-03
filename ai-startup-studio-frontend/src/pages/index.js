@@ -1,0 +1,15 @@
+export { default as LandingPage } from './landing/LandingPage.jsx';
+export { default as LoginPage } from './auth/LoginPage.jsx';
+export { default as RegisterPage } from './auth/RegisterPage.jsx';
+export { default as ForgotPasswordPage } from './auth/ForgotPasswordPage.jsx';
+export { default as ResetPasswordPage } from './auth/ResetPasswordPage.jsx';
+export { default as OnboardingPage } from './onboarding/OnboardingPage.jsx';
+export { default as DashboardPage } from './dashboard/DashboardPage.jsx';
+export { default as StartupsPage } from './startups/StartupsPage.jsx';
+export { default as StartupWorkspacePage } from './startups/StartupWorkspacePage.jsx';
+export { default as ModulePage } from './startups/ModulePage.jsx';
+export { default as AnalyticsPage } from './analytics/AnalyticsPage.jsx';
+export { default as SettingsPage } from './settings/SettingsPage.jsx';
+export { default as NotFoundPage } from './system/NotFoundPage.jsx';
+export { default as UnauthorizedPage } from './system/UnauthorizedPage.jsx';
+export { default as ForbiddenPage } from './system/ForbiddenPage.jsx';
