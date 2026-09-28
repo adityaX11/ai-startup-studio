@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Building2, DollarSign } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 import SectionHeader from '@/components/planning/SectionHeader.jsx';
 import Pill from '@/components/planning/Pill.jsx';

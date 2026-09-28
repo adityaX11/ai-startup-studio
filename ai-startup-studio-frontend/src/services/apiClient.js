@@ -1,21 +1,42 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('ai-startup-studio-token');
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Later: clear auth state and redirect to login.
+    const status = error.response?.status;
+
+    if (status === 401) {
+      window.dispatchEvent(new CustomEvent('auth:expired'));
     }
 
-    return Promise.reject(error);
+    const normalizedError = new Error(
+      error.response?.data?.message ||
+        error.message ||
+        'Something went wrong while contacting the server.'
+    );
+
+    normalizedError.status = status;
+    normalizedError.code = error.code;
+
+    return Promise.reject(normalizedError);
   }
 );
 

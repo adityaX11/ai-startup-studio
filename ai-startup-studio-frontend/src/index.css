@@ -129,6 +129,11 @@ body {
 
 @import 'tailwindcss';
 
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
 :root {
   color-scheme: dark;
   font-family:
@@ -217,5 +222,54 @@ input:focus-visible {
   p,
   span {
     color: black !important;
+  }
+}
+
+
+
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 640px) {
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 42px;
+  }
+
+  table {
+    font-size: 0.8125rem;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  button,
+  nav,
+  aside {
+    display: none !important;
   }
 }

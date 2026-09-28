@@ -5,7 +5,6 @@ import {
   ChevronUp,
   Copy,
   Download,
-  Maximize2,
   Pencil,
   Play,
   Plus,
@@ -153,30 +152,42 @@ function PitchDeckPage() {
   const [shareMessage, setShareMessage] = useState('');
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+        if (typeof window === 'undefined') {
+            return;
+        }
 
-    const storedDeck = window.localStorage.getItem(
-      getDeckStorageKey(startupId)
-    );
+        const storedDeck = window.localStorage.getItem(
+            getDeckStorageKey(startupId)
+        );
 
-    if (storedDeck) {
-      try {
-        const parsedDeck = JSON.parse(storedDeck);
-        setSlides(parsedDeck);
-        setSelectedId(parsedDeck[0]?.id || null);
-      } catch {
-        setSlides(data);
-        setSelectedId(data[0]?.id || null);
-      }
-    } else if (data.length) {
-      setSlides(data);
-      setSelectedId(data[0]?.id || null);
-    }
+        if (storedDeck) {
+            try {
+            const parsedDeck = JSON.parse(storedDeck);
 
-    setHasLoadedStorage(true);
-  }, [startupId, data]);
+            // External-storage hydration is intentionally performed here.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSlides(parsedDeck);
+
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSelectedId(parsedDeck[0]?.id || null);
+            } catch {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSlides(data);
+
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSelectedId(data[0]?.id || null);
+            }
+        } else if (data.length) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSlides(data);
+
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setSelectedId(data[0]?.id || null);
+        }
+
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setHasLoadedStorage(true);
+    }, [startupId, data]);
 
   useEffect(() => {
     if (!hasLoadedStorage || typeof window === 'undefined') {

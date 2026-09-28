@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   AlertTriangle,
-  CheckCircle2,
   Pencil,
   Plus,
   Search,
@@ -53,9 +52,6 @@ function getStorageKey(startupId) {
 function RiskForm({ initialValues, onSubmit, onCancel }) {
   const [form, setForm] = useState(initialValues || emptyRisk);
 
-  useEffect(() => {
-    setForm(initialValues || emptyRisk);
-  }, [initialValues]);
 
   function updateField(field, value) {
     setForm((current) => ({
@@ -243,25 +239,30 @@ function RisksPage() {
   const [severityFilter, setSeverityFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
 
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    useEffect(() => {
+        if (typeof window === 'undefined') {
+            return;
+        }
 
-    const storedRisks = window.localStorage.getItem(getStorageKey(startupId));
+        const storedRisks = window.localStorage.getItem(getStorageKey(startupId));
 
-    if (storedRisks) {
-      try {
-        setRisks(JSON.parse(storedRisks));
-      } catch {
-        setRisks(data);
-      }
-    } else if (data.length) {
-      setRisks(data);
-    }
+        if (storedRisks) {
+            try {
+            // External-storage hydration is intentionally performed here.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setRisks(JSON.parse(storedRisks));
+            } catch {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setRisks(data);
+            }
+        } else if (data.length) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setRisks(data);
+        }
 
-    setHasLoadedStorage(true);
-  }, [startupId, data]);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setHasLoadedStorage(true);
+    }, [startupId, data]);
 
   useEffect(() => {
     if (!hasLoadedStorage || typeof window === 'undefined') {
@@ -438,12 +439,13 @@ function RisksPage() {
 
       {showForm ? (
         <RiskForm
-          initialValues={editingRisk}
-          onSubmit={saveRisk}
-          onCancel={() => {
-            setEditingRisk(null);
-            setShowForm(false);
-          }}
+            key={editingRisk?.id || 'new-risk'}
+            initialValues={editingRisk}
+            onSubmit={saveRisk}
+            onCancel={() => {
+                setEditingRisk(null);
+                setShowForm(false);
+            }}
         />
       ) : null}
 

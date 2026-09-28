@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ListTodo, Star } from 'lucide-react';
+import { ListTodo } from 'lucide-react';
 
 import SectionHeader from '@/components/planning/SectionHeader.jsx';
 import Pill from '@/components/planning/Pill.jsx';
