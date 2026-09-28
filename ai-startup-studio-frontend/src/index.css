@@ -180,3 +180,42 @@ input:focus-visible {
 #root {
   min-height: 100vh;
 }
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  header,
+  nav,
+  aside,
+  button,
+  input,
+  textarea,
+  select,
+  .no-print {
+    display: none !important;
+  }
+
+  #root {
+    min-height: auto;
+  }
+
+  article,
+  section,
+  main {
+    border: 0 !important;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  span {
+    color: black !important;
+  }
+}

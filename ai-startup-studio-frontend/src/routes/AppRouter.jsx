@@ -1,33 +1,69 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+
 import PublicLayout from '@/layouts/PublicLayout.jsx';
-import AppLayout from '@/layouts/AppLayout.jsx';
 import AuthLayout from '@/layouts/AuthLayout.jsx';
+import AppLayout from '@/layouts/AppLayout.jsx';
 import ProtectedRoute from '@/routes/ProtectedRoute.jsx';
+
 import {
+  // Public and authentication pages
   LandingPage,
   LoginPage,
   RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
+
+  // Core application pages
   OnboardingPage,
   DashboardPage,
   StartupsPage,
   StartupWorkspacePage,
-  ModulePage,
   AnalyticsPage,
   SettingsPage,
+
+  // System pages
   NotFoundPage,
   UnauthorizedPage,
-  ForbiddenPage
+  ForbiddenPage,
+
+  // Phase 5: Analysis pages
+  IdeaAnalysisPage,
+  ValidationPage,
+  MarketResearchPage,
+  CompetitorAnalysisPage,
+  CustomerAnalysisPage,
+  SwotPage,
+
+  // Phase 6: Planning pages
+  BusinessModelPage,
+  RevenueModelPage,
+  FinancialPage,
+  MvpPlannerPage,
+  TechnologyPage,
+  RoadmapPage,
+
+  // Phase 7: Execution pages
+  GtmPage,
+  RisksPage,
+  PitchDeckPage,
+  AiCofounderPage,
+  DocumentsPage,
+  MonitoringPage
 } from '@/pages';
 
 function AppRouter() {
   return (
     <Routes>
+      {/* =====================================================
+          Public routes
+      ====================================================== */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<LandingPage />} />
       </Route>
 
+      {/* =====================================================
+          Authentication routes
+      ====================================================== */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -35,6 +71,9 @@ function AppRouter() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Route>
 
+      {/* =====================================================
+          Protected application routes
+      ====================================================== */}
       <Route
         element={
           <ProtectedRoute>
@@ -42,39 +81,159 @@ function AppRouter() {
           </ProtectedRoute>
         }
       >
+        {/* ---------------------------------------------------
+            Onboarding and startup creation
+        ---------------------------------------------------- */}
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/startups/new" element={<OnboardingPage />} />
+
+        {/* ---------------------------------------------------
+            Global application pages
+        ---------------------------------------------------- */}
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/startups" element={<StartupsPage />} />
-        <Route path="/startups/:startupId" element={<StartupWorkspacePage />} />
-
-        <Route path="/startups/:startupId/idea" element={<ModulePage title="Idea Analysis" />} />
-        <Route path="/startups/:startupId/validation" element={<ModulePage title="Problem Validation" />} />
-        <Route path="/startups/:startupId/market" element={<ModulePage title="Market Research" />} />
-        <Route path="/startups/:startupId/competitors" element={<ModulePage title="Competitor Analysis" />} />
-        <Route path="/startups/:startupId/customers" element={<ModulePage title="Customer Analysis" />} />
-        <Route path="/startups/:startupId/swot" element={<ModulePage title="SWOT Analysis" />} />
-        <Route path="/startups/:startupId/business-model" element={<ModulePage title="Business Model" />} />
-        <Route path="/startups/:startupId/revenue" element={<ModulePage title="Revenue Model" />} />
-        <Route path="/startups/:startupId/finance" element={<ModulePage title="Financial Estimation" />} />
-        <Route path="/startups/:startupId/mvp" element={<ModulePage title="MVP Planner" />} />
-        <Route path="/startups/:startupId/technology" element={<ModulePage title="Technology Recommendation" />} />
-        <Route path="/startups/:startupId/roadmap" element={<ModulePage title="Development Roadmap" />} />
-        <Route path="/startups/:startupId/gtm" element={<ModulePage title="Go-To-Market Strategy" />} />
-        <Route path="/startups/:startupId/risks" element={<ModulePage title="Risk Analysis" />} />
-        <Route path="/startups/:startupId/pitch-deck" element={<ModulePage title="Pitch Deck" />} />
-        <Route path="/startups/:startupId/ai-cofounder" element={<ModulePage title="AI Co-Founder" />} />
-        <Route path="/startups/:startupId/documents" element={<ModulePage title="Documents" />} />
-        <Route path="/startups/:startupId/monitoring" element={<ModulePage title="Monitoring" />} />
-        <Route path="/startups/:startupId/analytics" element={<AnalyticsPage />} />
-
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+
+        {/* ---------------------------------------------------
+            Startup workspace overview
+        ---------------------------------------------------- */}
+        <Route
+          path="/startups/:startupId"
+          element={<StartupWorkspacePage />}
+        />
+
+        {/* ===================================================
+            Phase 5: Analysis
+        ==================================================== */}
+        <Route
+          path="/startups/:startupId/idea"
+          element={<IdeaAnalysisPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/validation"
+          element={<ValidationPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/market"
+          element={<MarketResearchPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/competitors"
+          element={<CompetitorAnalysisPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/customers"
+          element={<CustomerAnalysisPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/swot"
+          element={<SwotPage />}
+        />
+
+        {/* ===================================================
+            Phase 6: Planning
+        ==================================================== */}
+        <Route
+          path="/startups/:startupId/business-model"
+          element={<BusinessModelPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/revenue"
+          element={<RevenueModelPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/finance"
+          element={<FinancialPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/mvp"
+          element={<MvpPlannerPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/technology"
+          element={<TechnologyPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/roadmap"
+          element={<RoadmapPage />}
+        />
+
+        {/* ===================================================
+            Phase 7: Launch and execution
+        ==================================================== */}
+        <Route
+          path="/startups/:startupId/gtm"
+          element={<GtmPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/risks"
+          element={<RisksPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/pitch-deck"
+          element={<PitchDeckPage />}
+        />
+
+        {/* ===================================================
+            Phase 7: AI and supporting workspace modules
+        ==================================================== */}
+        <Route
+          path="/startups/:startupId/ai-cofounder"
+          element={<AiCofounderPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/documents"
+          element={<DocumentsPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/monitoring"
+          element={<MonitoringPage />}
+        />
+
+        <Route
+          path="/startups/:startupId/analytics"
+          element={<AnalyticsPage />}
+        />
       </Route>
 
-      <Route path="/unauthorized" element={<UnauthorizedPage />} />
-      <Route path="/forbidden" element={<ForbiddenPage />} />
-      <Route path="/404" element={<NotFoundPage />} />
-      <Route path="*" element={<Navigate to="/404" replace />} />
+      {/* =====================================================
+          System routes
+      ====================================================== */}
+      <Route
+        path="/unauthorized"
+        element={<UnauthorizedPage />}
+      />
+
+      <Route
+        path="/forbidden"
+        element={<ForbiddenPage />}
+      />
+
+      <Route
+        path="/404"
+        element={<NotFoundPage />}
+      />
+
+      {/* Catch-all route */}
+      <Route
+        path="*"
+        element={<Navigate to="/404" replace />}
+      />
     </Routes>
   );
 }
