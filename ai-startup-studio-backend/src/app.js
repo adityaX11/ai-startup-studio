@@ -1,12 +1,15 @@
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
 import { checkDatabaseConnection } from './db/client.js';
+import authRoutes from './modules/auth/authRoutes.js';
 
 export function createApp() {
   const app = express();
+
   const allowedOrigin =
     process.env.CORS_ORIGIN || 'http://localhost:5173';
 
@@ -22,6 +25,7 @@ export function createApp() {
   );
 
   app.use(express.json({ limit: '1mb' }));
+  app.use(cookieParser());
 
   app.use(
     morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev')
@@ -34,7 +38,8 @@ export function createApp() {
       message: 'API is running',
       endpoints: {
         health: '/api/health',
-        readiness: '/api/ready'
+        readiness: '/api/ready',
+        auth: '/api/auth'
       }
     });
   });
@@ -71,6 +76,8 @@ export function createApp() {
     }
   });
 
+  app.use('/api/auth', authRoutes);
+
   app.use((_request, response) => {
     response.status(404).json({
       error: 'NOT_FOUND',
@@ -81,8 +88,8 @@ export function createApp() {
   app.use((error, _request, response, _next) => {
     console.error('Unhandled server error:', error);
 
-    response.status(500).json({
-      error: 'INTERNAL_SERVER_ERROR',
+    response.status(error.statusCode || 500).json({
+      error: error.code || 'INTERNAL_SERVER_ERROR',
       message:
         process.env.NODE_ENV === 'development'
           ? error.message
